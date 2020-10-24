@@ -3,15 +3,11 @@
 import math
 import BeamProfiler as bp
 
-v = 3
+v = 3.1
 
 #This file defines the fuctions to process data
 #crated F. Durville 3 Feb 2020
-
-#mod subtractBkg - FD 21jun20 -works for X-Y same travel
-# fixed dataprocess functions for XY scans when X!=Y - 3jul20
-#still need to fix subtractBkg for X!=Y - 4jul20
-#implemented mod - FD-4jul20-12:50pm
+#last update - FD-4jul20-12:50pm
 
 #calculating default bkg value
 def CalcBkg(scan,imgData):
@@ -46,7 +42,6 @@ def CalcBkg(scan,imgData):
 
 #calculating centroid
 def calc_centroid(imgData):
-    #global imgData, centroid, dataInput, travelStep, sumI, centroid
     Xcentroid = 0
     Ycentroid = 0
     centr = 0
@@ -62,10 +57,8 @@ def calc_centroid(imgData):
         np = len(imgData)
         for nn in range(np):
             travel = step * nn
-            #print "nn:",nn,"data:",travel,"..",imgData[0,nn],"..",imgData[1,nn]
             sumI = sumI + imgData[nn][1]
             centr = centr + travel*imgData[nn][1]
-        #print "sumx:",sumIx,"sumy:",sumIy
         if scan == "X":
             centroid[0] = centr / sumI
         if scan == "Y":
@@ -76,25 +69,26 @@ def calc_centroid(imgData):
         np = len(imgData)
         for nn in range(1,np):
             travel = step * nn
-            #print "nn:",nn,"data:",travel,"..",imgData[0,nn],"..",imgData[1,nn]
             sumIx = sumIx + imgData[nn][0]
             Xcentroid = Xcentroid + travel*imgData[nn][0]
             try:
                 sumIy = sumIy + imgData[nn][1]
                 Ycentroid = Ycentroid + travel*imgData[nn][1]
             except IndexError:
-                #ignore
                 print ("centroid index error - ignored.."),nn
                 pass
-        #print "sumx:",sumIx,"sumy:",sumIy
         centroid[0] = Xcentroid / sumIx
         centroid[1] = Ycentroid / sumIy
+        
+    bp.centroid = centroid
         
     return centroid
 
 #calculating Second Moment
 def calc_secmom(imgData):
-    #global imgData, centroid, dataInput, travelStep, secMoment, sumI
+    if bp.centroid[0]==0 or bp.centroid[1]==0:
+        bp.centroid = calc_centroid(imgData)
+        pass
     Xmom = 0
     Ymom = 0
     sumIx = 0

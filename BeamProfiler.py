@@ -5,7 +5,10 @@ import serial
 import time
 
 #version
-v = 3
+v = 3.1
+
+#scan number - added FD  20oct20
+sn = 0
 
 #setting default values for grbl / CNC control
 grblPort = 'COM3'  # COM10 for Xtreme 8jan20
