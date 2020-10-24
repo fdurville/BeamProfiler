@@ -27,24 +27,6 @@ from PIL import Image
 #such as subtracting bkg value, calculating centroid and second moment
 #Module ScanningFunctions contains functions specific to "scanning"
 #i.e., synchronizing moving stages and requesting data-acquisition
-#V000-WIP-06  -  14feb20  -  all scanning / acquiring functions work.
-#need to check accurate movements of stages
-#also need to add processing functions......
-
-#V01 - add separate input for Y-travel  -  FD/12mar20
-#requires change in BeamProfiler module, adding travelY
-#eliminate inputData list
-
-#WIP-002  eliminate pubsub
-
-#WIP-008 - fixing scans -  added G91 and G90 at beginning and end of scan
-
-#008F - fixed saving Yindex, improved interuptScan, added menuitem allAnalysis
-# added reset functions in BeamProfiler
-# fixed dataprocess functions for XY scans when X!=Y - 3jul20
-
-#V02-R001 - modified menu bar, added status bar - FD-04jul20
-#need to fix subtractBkg function for X!=Y
 
 #version
 v = 3
