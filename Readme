@@ -1,1 +1,3 @@
 Software to measure a quantity (such as the intensity distribution of laser beam) in a given plane.
+With V3.4, added functionality for Beam Parameters saving function (BPZ) with ability to append data from multiple measurements in a single file.
+Also added functionality to record and graph evolution of signal as function of time.
