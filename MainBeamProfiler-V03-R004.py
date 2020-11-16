@@ -884,12 +884,7 @@ class TimeGraph(wx.Frame):
         self.SamplingMenuItem = self.editMenu.Append(201,"Sampling","Change sampling rate")
         self.menuBar.Append(self.fileMenu, "File")
         self.menuBar.Append(self.editMenu, "Scale")
-        # create menu items
-        #deprecated - save = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Save", "Saves the current graph", wx.ITEM_NORMAL )
-        #deprecated - close = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Close", "Closes the graph window", wx.ITEM_NORMAL )
-        # append menu items
-        #deprecated - self.fileMenu.AppendItem(save)
-        #deprecated - self.fileMenu.AppendItem(close)
+        
         # bind items
         self.Bind( wx.EVT_MENU, self.OnSave, self.SaveMenuItem )
         self.Bind( wx.EVT_MENU, self.OnClose, self.CloseMenuItem)
@@ -983,11 +978,22 @@ class TimeGraph(wx.Frame):
         
     def OnScale(self, event):
         #re-scale axes of graph plot
+        dlg = wx.TextEntryDialog(self,"Enter new value",'0,100,0,100')
+        dlg.ShowModal()
+        newScale = dlg.GetValue()
+        
         pass
     
     def OnSampling(self, event):
         #change sampling rate - change/recalculate value of self.timePeriod
         #need to set-up dialog entry
+        if self.timer.IsRunning():
+            self.timer.Stop()
+            self.DT = time.time() - self.t0
+        newRate = wx.TextEntryDialog(self,"Enter New Sampling Rate (/s)",'200')
+        newRate.ShowModal()
+        self.timerPeriod = newRate.GetValue()
+        #need to check/validate value
         pass
 
 
