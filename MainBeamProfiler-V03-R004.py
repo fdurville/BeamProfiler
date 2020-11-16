@@ -863,7 +863,7 @@ class BillboardDisplay(wx.Frame):
 
 
 ##### Frame to graph data value in time
-#this still needs to be RE-DONE!!!  05nov20
+#need to add menu options to re-scale plot (both X & Y) and change sampling rate  16nov20
 class TimeGraph(wx.Frame):
     def __init__(self, window_parent ):
         
@@ -874,20 +874,27 @@ class TimeGraph(wx.Frame):
         ico = wx.Icon('OFSI.ico', wx.BITMAP_TYPE_ICO )
         self.SetIcon( ico )
         
-        # add menubar
+        # add menubar and menus
         self.menuBar = wx.MenuBar( 0 )
         self.fileMenu = wx.Menu()
+        self.SaveMenuItem = self.fileMenu.Append(100,"Save","Save plot data in file")
+        self.CloseMenuItem = self.fileMenu.Append(101,"Close","Close Plot Window")
         self.editMenu = wx.Menu()
+        self.ScaleMenuItem = self.editMenu.Append(200,"Scale Plot","Change X or Y scale of plot")
+        self.SamplingMenuItem = self.editMenu.Append(201,"Sampling","Change sampling rate")
         self.menuBar.Append(self.fileMenu, "File")
+        self.menuBar.Append(self.editMenu, "Scale")
         # create menu items
-        save = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Save", "Saves the current graph", wx.ITEM_NORMAL )
-        close = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Close", "Closes the graph window", wx.ITEM_NORMAL )
+        #deprecated - save = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Save", "Saves the current graph", wx.ITEM_NORMAL )
+        #deprecated - close = wx.MenuItem( self.fileMenu, wx.ID_ANY, "Close", "Closes the graph window", wx.ITEM_NORMAL )
         # append menu items
-        self.fileMenu.AppendItem(save)
-        self.fileMenu.AppendItem(close)
+        #deprecated - self.fileMenu.AppendItem(save)
+        #deprecated - self.fileMenu.AppendItem(close)
         # bind items
-        self.Bind( wx.EVT_MENU, self.OnClose, id=close.GetId() )
-        self.Bind( wx.EVT_MENU, self.OnSave, id=save.GetId() )
+        self.Bind( wx.EVT_MENU, self.OnSave, self.SaveMenuItem )
+        self.Bind( wx.EVT_MENU, self.OnClose, self.CloseMenuItem)
+        self.Bind( wx.EVT_MENU, self.OnScale, self.ScaleMenuItem )
+        self.Bind( wx.EVT_MENU, self.OnSampling, self.SamplingMenuItem)
         self.SetMenuBar( self.menuBar)
         
         self.DS = False
@@ -973,6 +980,15 @@ class TimeGraph(wx.Frame):
         
         #print "---graphing -- -- ",plotTitle
         self.plot.Draw(pg, self.xRange, self.yRange)
+        
+    def OnScale(self, event):
+        #re-scale axes of graph plot
+        pass
+    
+    def OnSampling(self, event):
+        #change sampling rate - change/recalculate value of self.timePeriod
+        #need to set-up dialog entry
+        pass
 
 
     def OnClose(self, event):
