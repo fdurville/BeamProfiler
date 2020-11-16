@@ -893,6 +893,7 @@ class TimeGraph(wx.Frame):
         self.SetMenuBar( self.menuBar)
         
         self.DS = False
+        self.autoScale = True
         self.t0 = 0
         self.DT = 0
         self.tdat = [(0,0)]
@@ -919,7 +920,6 @@ class TimeGraph(wx.Frame):
         self.Fit()
 
         bp.startADC(bp.propPort,bp.propbdr,self.chan,bp.rateVal)
-
         self.updateValue(event = None)
 
         #changed from EVT_MOUSE_EVENTS to EVT_MOUSEWHEEL - works fine - FD 04jun18
@@ -946,33 +946,29 @@ class TimeGraph(wx.Frame):
             else:
                 self.t0 = time.time() - self.DT
 
-    #read ADC and update value on billboard and gauge
+    #read ADC and update graph
     def updateValue(self,event):
         duration = 0.05
         datval = bp.readData(duration)
-        
-        if datval > self.ymax:
+        if datval > self.ymax and self.autoScale:
             self.ymax = 1.2 * datval
             self.yRange = (0,self.ymax)
-            
         dt = time.time() - self.t0
-        #print ("time stamp "),dt
-        
         if dt > self.xmax:
             self.xmax = 5 * self.xmax
             self.xRange = ( 0 , self.xmax )
-            
         datpt = (dt , datval)
         self.tdat.append(datpt)
-        line = wx.lib.plot.PolyLine(self.tdat, colour='red', width=2)
-
+        self.updateGraph(self.tdat,self.xRange, self.yRange)
+         
+    def updateGraph(datlist, xrange, yrange):
+        lineData = datlist
+        line = wx.lib.plot.PolyLine(lineData, colour='red', width=2)
         if self.DS:
             self.plotTitle = self.plotTitleDS
         else:
             self.plotTitle = self.plotTitleNS
-        
         pg = wx.lib.plot.PlotGraphics([line], self.plotTitle, self.xlabel, self.ylabel)
-        
         #print "---graphing -- -- ",plotTitle
         self.plot.Draw(pg, self.xRange, self.yRange)
         
@@ -980,10 +976,17 @@ class TimeGraph(wx.Frame):
         #re-scale axes of graph plot
         dlg = wx.TextEntryDialog(self,"Enter new value",'0,100,0,100')
         dlg.ShowModal()
-        newScale = dlg.GetValue()
-        
+        if dlg.ShowModal() == wx.ID_OK :
+            newScale = dlg.GetValue()
+            #need to add code to parse xr and yr from newScale string
+            self.autoScale = False
+        else:
+            self.autoScale = True
+            xr = self.xRange
+            yr = self.Yrange
+        self.updateGraph(self.tdat,xr, yr)
         pass
-    
+  
     def OnSampling(self, event):
         #change sampling rate - change/recalculate value of self.timePeriod
         #need to set-up dialog entry
