@@ -980,6 +980,36 @@ class TimeGraph(wx.Frame):
             newScale = dlg.GetValue()
             #need to add code to parse xr and yr from newScale string
             self.autoScale = False
+            ci = 0
+            newVal = []
+            s1 = ''
+            s2 = ''
+            s3 = ''
+            s4 = ''
+            try:
+                for c in newScale:
+                    if ci == 3 and c != ',':
+                        s4 = s4 + c
+                    elif ci == 3 and c == ',':
+                        ci = 4
+                    if ci == 2 and c != ',':
+                        s3 = s3 + c
+                    elif ci == 2 and c == ',':
+                        ci = 3
+                    if ci == 1 and c != ',':
+                        s2 = s2 + c
+                    elif ci == 1 and c == ',':
+                        ci = 2
+                    if ci == 0 and c != ',':
+                        s1 = s1 + c
+                    elif ci == 0 and c == ',':
+                        ci = 1
+                    pass
+                self.xRange = (float(s1), float(s2))
+                self.yRange = (float(s3), float(s4))
+            except:
+                pass
+                
         else:
             self.autoScale = True
             xr = self.xRange
