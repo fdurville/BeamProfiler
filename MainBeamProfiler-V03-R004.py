@@ -2078,7 +2078,8 @@ def saveBP(frame,header):
     Xwidth = bp.secMoment[0]
     Ywidth = bp.secMoment[1]
     writeData = [Zpos, Xcenter,Ycenter,Xwidth,Ywidth]
-    filename = 'BP.csv'
+    day = bp.today.isoformat()
+    filename = 'BP-' + day + '.csv'
     print ("you chose to save BP only...."), Zpos,Xcenter,Ycenter,Xwidth, Ywidth
 
     if writeData != [0,0,0,0,0]:
