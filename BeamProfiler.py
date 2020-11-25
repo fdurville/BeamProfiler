@@ -3,6 +3,7 @@
 #defining all necessary variables
 import serial
 import time
+from datetime import date
 
 #version
 v = 3.4
@@ -10,6 +11,7 @@ v = 3.4
 #scan number - added FD  20oct20
 sn = 0
 dataSaved = False
+today = date.today()
 
 #setting default values for grbl / CNC control
 grblPort = 'COM3'  # COM10 for Xtreme 8jan20
@@ -89,7 +91,7 @@ Analysis = False
 nptMax = 1000
 data = []
 imgData = []
-BPZ = []
+BPZdata = []
 centroid = [0,0]
 secMoment = [0,0]
 sumI = [0,0]
@@ -135,7 +137,7 @@ def updateSteps():
 def resetData():
     data = []
     imgData = []
-    BPZ = []
+    #BPZ = []
     centroid = [0,0]
     secMoment = [0,0]
     sumI = [0,0]
