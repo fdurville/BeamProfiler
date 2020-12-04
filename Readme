@@ -2,4 +2,4 @@ Software to measure a quantity (such as the intensity distribution of laser beam
 With V3.4, added functionality for Beam Parameters saving function (BPZ) with ability to append data from multiple measurements in a single file.
 Also added functionality to record and graph evolution of signal as function of time.
 Currently working on adding custom scaling and changing sampling rate in time-graph. Done in V3R6.
-Also added loading BPX data from file and graphing (not complete)
+Also added loading BPX data from file and graphing (not complete). Done in V3R7.
