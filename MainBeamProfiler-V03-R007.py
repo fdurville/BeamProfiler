@@ -1418,7 +1418,7 @@ class showImage(wx.Frame):
             scale = (vmax / 255.000) * 100
             #print "vmax = ", vmax, "  scaling : ", scale, vmax/255
             mydata = ( mydata * 100 ) / scale
-        elif vmax == bp.bkg:
+        elif vmax == 0:
             scale = 1
             pass
         else:
